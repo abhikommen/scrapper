@@ -9,6 +9,7 @@ $divMeta = $article[0]->find("div.column-meta");
 
   // code...
   $jsonArray = array();
+
   for($i=0;$i<count($divMeta);$i++){
 
   $jsonObject = array();
@@ -22,6 +23,18 @@ $divMeta = $article[0]->find("div.column-meta");
   $jsonObject["match_venue"] = $divMeta[$i]->find('div.venue', 0)->plaintext;
   $jsonObject["match_time"] = $divMeta[$i]->find('span.time', 0)->plaintext;
 
+  $idWholeText = $divTeams[$i]->find('div.status_note', 0);
+  $matches = array();
+   preg_match('/status_note status_note-\d\d*/', $idWholeText, $matches);
+   $wholeId = $matches[0];
+
+   $content = preg_split('/\D/', $wholeId,
+              -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+
+
+  $jsonObject["match_id"] =  $content[0];
+
+
   $teamA = $divTeams[$i]->find('div.teama', 0);
   $jsonObject["match_status_note"] =  $divTeams[$i]->find('div.status_note', 0)->plaintext;
 
@@ -31,14 +44,14 @@ $divMeta = $article[0]->find("div.column-meta");
   } else {
     $jsonObject["first_team_logo"] =  'NA';
   }
-  
+
   if (($teamA->find('div.teamScore',0))) {
     // code...
     $jsonObject["first_team_score"] =  $teamA->find('div.teamScore',0)->plaintext;
   } else {
     $jsonObject["first_team_score"] =  'NA';
   }
-  
+
   $jsonObject["first_team_name"] = $teamA->find('div.teamName', 0)->plaintext;
 
   $jsonObject["first_team_abbr"] = $teamA->find('div.teamAbbr', 0)->plaintext;
@@ -66,7 +79,7 @@ if(($teamA->find('span.inningScore', 1))) {
   }
     $jsonObject["second_team_name"] = $teamB->find('div.teamName', 0)->plaintext;
   $jsonObject["second_team_abbr"] = $teamB->find('div.teamAbbr', 0)->plaintext;
-  
+
    if (($teamB->find('div.teamScore',0))) {
     // code...
     $jsonObject["second_team_score"] =  $teamB->find('div.teamScore',0)->plaintext;
@@ -84,11 +97,7 @@ if(($teamB->find('span.inningScore', 1))) {
   $jsonObject["second_team_inningscore2"] = $teamB->find('span.inningScore', 1)->plaintext;
 }else {
   $jsonObject["second_team_inningscore2"] = 'NA';
-
 }
-
-
-  //$jsonObject["first_team_inningscore2"] = $teamA->find('span.inningScore', 1)->plaintext;
   $jsonArray[$i] = $jsonObject;
 }
 $out = array_values($jsonArray);
