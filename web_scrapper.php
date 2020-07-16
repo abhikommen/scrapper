@@ -29,6 +29,14 @@ $divMeta = $article[0]->find("div.column-meta");
   } else {
     $jsonObject["first_team_logo"] =  'NA';
   }
+  
+  if (($teamA->find('div.teamScore',0))) {
+    // code...
+    $jsonObject["first_team_score"] =  $teamA->find('div.teamScore',0)->plaintext;
+  } else {
+    $jsonObject["first_team_score"] =  'NA';
+  }
+  
   $jsonObject["first_team_name"] = $teamA->find('div.teamName', 0)->plaintext;
 
   $jsonObject["first_team_abbr"] = $teamA->find('div.teamAbbr', 0)->plaintext;
@@ -56,6 +64,13 @@ if(($teamA->find('span.inningScore', 1))) {
   }
     $jsonObject["second_team_name"] = $teamB->find('div.teamName', 0)->plaintext;
   $jsonObject["second_team_abbr"] = $teamB->find('div.teamAbbr', 0)->plaintext;
+  
+   if (($teamB->find('div.teamScore',0))) {
+    // code...
+    $jsonObject["second_team_score"] =  $teamB->find('div.teamScore',0)->plaintext;
+  } else {
+    $jsonObject["second_team_score"] =  'NA';
+  }
 
   if(($teamB->find('span.inningScore', 0))) {
     $jsonObject["second_team_inningscore"] = $teamB->find('span.inningScore', 0)->plaintext;
