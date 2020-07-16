@@ -23,6 +23,8 @@ $divMeta = $article[0]->find("div.column-meta");
   $jsonObject["match_time"] = $divMeta[$i]->find('span.time', 0)->plaintext;
 
   $teamA = $divTeams[$i]->find('div.teama', 0);
+  $jsonObject["match_status_note"] =  $divTeams[$i]->find('div.status_note', 0)->plaintext;
+
   if (($teamA->find('div.teamLogo',0)->find('a, img',0))) {
     // code...
     $jsonObject["first_team_logo"] =  $teamA->find('div.teamLogo',0)->find('a, img',0)->src;
